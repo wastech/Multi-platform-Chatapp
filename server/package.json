@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "i'm building a multi-platform chat app using express, mongoose , mongoDb ets",
   "main": "index.js",
- "scripts": {
+  "scripts": {
     "start": "NODE_ENV=production node index",
     "dev": "nodemon index"
   },
@@ -37,6 +37,7 @@
     "path": "^0.12.7",
     "sanitize-html": "^2.7.0",
     "slugify": "^1.6.5",
+    "socket.io": "^4.5.0",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {

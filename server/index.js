@@ -38,7 +38,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Dev logging middleware
-if (process.env.NODE_ENV === "production") {
+if (!process.env.NODE_ENV === "production") {
   app.use(morgan("dev"));
 }
 
@@ -57,7 +57,8 @@ app.use(limiter);
 
 // Prevent http param pollution
 app.use(hpp());
-app.use(cors());
+
+
 
 // Set static folder
 
@@ -85,6 +86,51 @@ const server = app.listen(
     `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
   )
 );
+
+const io = require("socket.io")(server, {
+  pingTimeout: 120000,
+  cors: {
+    origin: "http://localhost:5000", //development
+    credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("Connected to socket.io");
+
+  socket.on("setup", (userData) => {
+    socket.join(userData._id);
+    console.log(`Logged in user ${userData.name} joined the created room`);
+    socket.emit("connected");
+  });
+
+  socket.on("join chat", (room) => {
+    socket.join(room);
+    console.log("User Joined the selectedChat Room: " + room); //room-selectedChatId
+  });
+
+  socket.on("typing", (room) => socket.in(room).emit("typing"));
+  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+
+  socket.on("new message", (newMessageRecieved) => {
+    var chat = newMessageRecieved.chat;
+
+    if (!chat.userId) return console.log("chat.users not defined");
+
+    chat.userId.forEach((user) => {
+      if (user._id == newMessageRecieved.sender._id) return;
+
+      socket.in(user._id).emit("message recieved", newMessageRecieved);
+      //.in-- inside user._id exclusive socket room joined-- emit this "message recieved" event ////mern-docs
+    });
+  });
+
+  socket.off("setup", () => {
+    console.log("USER DISCONNECTED");
+    socket.leave(userData._id);
+  });
+});  
+
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
