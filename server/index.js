@@ -27,6 +27,7 @@ connectDB();
 const auth = require("./routes/auth");
 const users = require("./routes/users");
 const chat = require("./routes/chat");
+const message = require("./routes/messages");
 
 const app = express();
 app.use(compression());
@@ -63,6 +64,7 @@ app.use(cors());
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
 app.use("/api/v1/chat", chat);
+app.use("/api/v1/messages", message);
 
 // Sanitize data
 app.use(
