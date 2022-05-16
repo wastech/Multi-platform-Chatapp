@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const asyncHandler = require("./async");
+
+const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 const Chat = require("../models/Chat");
 const User = require("../models/User");
@@ -55,8 +55,7 @@ exports.accessChat = asyncHandler(async (req, res) => {
 
       res.status(200).json(fullChat);
     } catch (error) {
-      res.status(400);
-      throw new Error(error.message);
+          return next(new ErrorResponse(error.message))
     }
   }
 });
@@ -132,13 +131,13 @@ exports.renameGroup = asyncHandler(async (req, res) => {
     .populate("groupAdmin", "-password");
 
   if (!updatedChat) {
-    res.status(404);
-    throw new Error("Chat Not Found");
+        return next(new ErrorResponse("Chat Not Found", 404));
+    // res.status(404);
+    // throw new Error("Chat Not Found");
   } else {
     res.json(updatedChat);
   }
 });
-
 
 // @desc    Remove user from Group
 // @route   PUT /api/chat/groupremove
@@ -160,13 +159,11 @@ exports.removeFromGroup = asyncHandler(async (req, res) => {
   //console.log(removed);
 
   if (!removed) {
-    res.status(404);
-    throw new Error("Chat Not Found");
+    return next(new ErrorResponse("Chat Not Found", 404));
   } else {
     res.json(removed);
   }
 });
-
 
 // @desc    Add user to Group / Leave
 // @route   PUT /api/chat/groupadd
@@ -188,8 +185,7 @@ exports.addToGroup = asyncHandler(async (req, res) => {
   //console.log(added);
 
   if (!added) {
-    res.status(404);
-    throw new Error("Chat Not Found");
+    return next(new ErrorResponse("Chat Not Found", 404));
   } else {
     res.json(added);
   }
