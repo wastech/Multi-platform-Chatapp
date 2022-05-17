@@ -14,28 +14,15 @@
           </q-card-section>
           <q-card-section>
             <div class="text-center q-pt-lg">
-              <div class="text-h5 text-bold">Sign Up</div>
+              <div class="text-h5 text-bold">Reset Password</div>
               <div class="text-caption text-medium q-my-sm">
-                Get your Chatvia account now.
+                Reset Password With Chatvia.
               </div>
             </div>
           </q-card-section>
-          <q-card flat >
+          <q-card flat>
             <q-card-section>
               <q-form class="q-gutter-md q-pa-lg">
-                <div class="text-capton text-medium">Username</div>
-                <q-input
-                  square
-                  filled
-                  dense
-                  class="bg-soft-light"
-                  type="text"
-                  v-model="username"
-                >
-                  <template v-slot:prepend>
-                    <q-icon name="account_circle" />
-                  </template>
-                </q-input>
                 <div class="text-capton text-medium">Email</div>
                 <q-input
                   square
@@ -43,6 +30,7 @@
                   dense
                   class="bg-soft-light"
                   type="email"
+                  placeholder=" Enter your email"
                   v-model="username"
                 >
                   <template v-slot:prepend>
@@ -51,22 +39,7 @@
                 </q-input>
 
                 <div>
-                  <div class="text-capton text-medium">Password</div>
-                </div>
-                <q-input
-                  square
-                  filled
-                  type="password"
-                  dense
-                  class="bg-soft-light"
-                  v-model="username"
-                >
-                  <template v-slot:prepend>
-                    <q-icon name="lock" />
-                  </template>
-                </q-input>
-                <div>
-                  <q-btn class="full-width btn-color" label="Sign Up" no-caps />
+                  <q-btn class="full-width btn-color" label="Reset" no-caps />
                 </div>
               </q-form>
             </q-card-section>
@@ -75,7 +48,7 @@
           <q-card-section>
             <div class="text-center q-pt-lg">
               <div class="text-subtitle2">
-                Already have an account ?
+                Remember It ?
                 <span class="text__color">Signin</span>
               </div>
               <div class="text-subtitle text-medium q-my-sm">
@@ -96,8 +69,8 @@ import { ref } from "vue";
 export default defineComponent({
   setup() {
     return {
-      username: ref("Pratik"),
-      password: ref("12345"),
+      username: ref(""),
+  
     };
   },
 });
