@@ -1,5 +1,5 @@
 <template>
-  <q-layout>
+  <q-layout class="user-chat">
     <q-page-container>
       <q-page :style-fn='(offset, height) => { return { height: `${height - offset}px` }}'>
       <div class="q-pa-md row justify-center">
@@ -36,4 +36,9 @@ export default defineComponent({
 </script>
 
 <style  scoped>
+.user-chat {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(15,34,58,.12);
+  transition: all .4s;
+}
 </style>

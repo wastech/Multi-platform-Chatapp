@@ -2,10 +2,10 @@
   <div class="main">
     <q-splitter v-model="splitterModel" style="height: 100vh">
       <template v-slot:before class="q-my-xl">
-        <q-tabs v-model="tab" vertical class="text-teal">
+        <q-tabs v-model="tab" vertical>
           <q-tab name="chats" icon="chat" />
           <q-tab name="profile" icon="account_circle" />
-          <q-tab name="movies" icon="movie" />
+          <q-tab name="groups" icon="group" />
         </q-tabs>
       </template>
 
@@ -26,26 +26,8 @@
             <profile-component />
           </q-tab-panel>
 
-          <q-tab-panel name="movies">
-            <div class="text-h4 q-mb-md">Movies</div>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-              praesentium cumque magnam odio iure quidem, quod illum numquam
-              possimus obcaecati commodi minima assumenda consectetur culpa fuga
-              nulla ullam. In, libero.
-            </p>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-              praesentium cumque magnam odio iure quidem, quod illum numquam
-              possimus obcaecati commodi minima assumenda consectetur culpa fuga
-              nulla ullam. In, libero.
-            </p>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-              praesentium cumque magnam odio iure quidem, quod illum numquam
-              possimus obcaecati commodi minima assumenda consectetur culpa fuga
-              nulla ullam. In, libero.
-            </p>
+          <q-tab-panel name="groups">
+            <group-component />
           </q-tab-panel>
         </q-tab-panels>
       </template>
@@ -57,9 +39,10 @@
 import { ref } from "vue";
 import ChatComponent from "./ChatComponent.vue";
 import ProfileComponent from "./ProfileComponent.vue";
+import GroupComponent from "./groupComponent.vue";
 
 export default {
-  components: { ChatComponent, ProfileComponent },
+  components: { ChatComponent, ProfileComponent, GroupComponent },
   setup() {
     return {
       tab: ref("chats"),
