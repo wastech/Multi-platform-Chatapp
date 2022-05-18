@@ -74,7 +74,7 @@ export default {
   setup() {
     return {
       tab: ref("chats"),
-      splitterModel: ref(20),
+      splitterModel: ref(15),
     };
   },
 };
