@@ -2,7 +2,7 @@
   <q-page>
     <div class="text-title q-my-md">
       <div class="text-h6 text-weight-bolder">
-        Group
+        Groups
         <span style="float: right">
           <q-icon @click="alert = true" name="group" />
         </span>

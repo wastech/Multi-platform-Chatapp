@@ -6,6 +6,7 @@
           <q-tab name="chats" icon="chat" />
           <q-tab name="profile" icon="account_circle" />
           <q-tab name="groups" icon="group" />
+          <q-tab name="settings" icon="settings" />
         </q-tabs>
       </template>
 
@@ -29,6 +30,9 @@
           <q-tab-panel name="groups">
             <group-component />
           </q-tab-panel>
+          <q-tab-panel name="settings">
+            <setting-component />
+          </q-tab-panel>
         </q-tab-panels>
       </template>
     </q-splitter>
@@ -40,9 +44,15 @@ import { ref } from "vue";
 import ChatComponent from "./ChatComponent.vue";
 import ProfileComponent from "./ProfileComponent.vue";
 import GroupComponent from "./groupComponent.vue";
+import SettingComponent from "./SettingComponent.vue";
 
 export default {
-  components: { ChatComponent, ProfileComponent, GroupComponent },
+  components: {
+    ChatComponent,
+    ProfileComponent,
+    GroupComponent,
+    SettingComponent,
+  },
   setup() {
     return {
       tab: ref("chats"),
