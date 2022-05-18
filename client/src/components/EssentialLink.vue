@@ -1,19 +1,11 @@
 <template>
-  <div>
-    <q-splitter
-      v-model="splitterModel"
-      style="height: 250px"
-    >
-
-      <template v-slot:before>
-        <q-tabs
-          v-model="tab"
-          vertical
-          class="text-teal"
-        >
-          <q-tab name="mails" icon="mail" label="Mails" />
-          <q-tab name="alarms" icon="alarm" label="Alarms" />
-          <q-tab name="movies" icon="movie" label="Movies" />
+  <div class="main">
+    <q-splitter v-model="splitterModel" style="height: 100vh">
+      <template v-slot:before class="q-my-xl">
+        <q-tabs v-model="tab" vertical class="text-teal">
+          <q-tab name="chats" icon="chat" />
+          <q-tab name="alarms" icon="account_circle" />
+          <q-tab name="movies" icon="movie" />
         </q-tabs>
       </template>
 
@@ -26,40 +18,75 @@
           transition-prev="jump-up"
           transition-next="jump-up"
         >
-          <q-tab-panel name="mails">
-            <div class="text-h4 q-mb-md">Mails</div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          <q-tab-panel name="chats">
+            <chat-component />
           </q-tab-panel>
 
           <q-tab-panel name="alarms">
             <div class="text-h4 q-mb-md">Alarms</div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.
+            </p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.
+            </p>
           </q-tab-panel>
 
           <q-tab-panel name="movies">
             <div class="text-h4 q-mb-md">Movies</div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.
+            </p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.
+            </p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.
+            </p>
           </q-tab-panel>
         </q-tab-panels>
       </template>
-
     </q-splitter>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref } from "vue";
+import ChatComponent from "./ChatComponent.vue";
 
 export default {
-  setup () {
+  components: { ChatComponent },
+  setup() {
     return {
-      tab: ref('mails'),
-      splitterModel: ref(20)
-    }
-  }
-}
+      tab: ref("chats"),
+      splitterModel: ref(20),
+    };
+  },
+};
 </script>
+<style scoped>
+.q-tab-panels {
+  background-color: #f5f7fb;
+  height: 100vh;
+}
+.q-tabs {
+  background-color: #fff;
+  justify-content: center !important;
+  box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
+}
+</style>

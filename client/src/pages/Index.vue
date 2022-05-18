@@ -1,6 +1,7 @@
 <template>
   <q-layout>
     <q-page-container>
+      <q-page :style-fn='(offset, height) => { return { height: `${height - offset}px` }}'>
       <div class="q-pa-md row justify-center">
         <div style="width: 100%; max-width: 800px">
           <q-chat-message
@@ -16,6 +17,7 @@
           />
         </div>
       </div>
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>

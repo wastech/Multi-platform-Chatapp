@@ -1,10 +1,8 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <section>
-      <q-drawer v-model="leftDrawerOpen" show-if-above bordered :width="450">
+      <q-drawer v-model="leftDrawerOpen" show-if-above bordered :width="500">
         <q-list>
-          <q-item-label header> Essential Links </q-item-label>
-
           <EssentialLink />
         </q-list>
       </q-drawer>
