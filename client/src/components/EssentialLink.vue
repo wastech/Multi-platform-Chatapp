@@ -4,7 +4,7 @@
       <template v-slot:before class="q-my-xl">
         <q-tabs v-model="tab" vertical class="text-teal">
           <q-tab name="chats" icon="chat" />
-          <q-tab name="alarms" icon="account_circle" />
+          <q-tab name="profile" icon="account_circle" />
           <q-tab name="movies" icon="movie" />
         </q-tabs>
       </template>
@@ -22,20 +22,8 @@
             <chat-component />
           </q-tab-panel>
 
-          <q-tab-panel name="alarms">
-            <div class="text-h4 q-mb-md">Alarms</div>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-              praesentium cumque magnam odio iure quidem, quod illum numquam
-              possimus obcaecati commodi minima assumenda consectetur culpa fuga
-              nulla ullam. In, libero.
-            </p>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-              praesentium cumque magnam odio iure quidem, quod illum numquam
-              possimus obcaecati commodi minima assumenda consectetur culpa fuga
-              nulla ullam. In, libero.
-            </p>
+          <q-tab-panel name="profile">
+            <profile-component />
           </q-tab-panel>
 
           <q-tab-panel name="movies">
@@ -68,9 +56,10 @@
 <script>
 import { ref } from "vue";
 import ChatComponent from "./ChatComponent.vue";
+import ProfileComponent from "./ProfileComponent.vue";
 
 export default {
-  components: { ChatComponent },
+  components: { ChatComponent, ProfileComponent },
   setup() {
     return {
       tab: ref("chats"),
