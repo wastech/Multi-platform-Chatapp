@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
   },
   about: {
     type: String,
-    required: [true, "Please add a about"],
+   // required: [true, "Please add a about"],
   },
   isAdmin: {
     type: Boolean,

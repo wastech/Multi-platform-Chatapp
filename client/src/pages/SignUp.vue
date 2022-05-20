@@ -22,7 +22,7 @@
           </q-card-section>
           <q-card flat>
             <q-card-section>
-              <q-form class="q-gutter-md q-pa-lg">
+              <q-form class="q-gutter-md q-pa-lg" @submit.prevent="onSubmit">
                 <div class="text-capton text-medium">Username</div>
                 <q-input
                   square
@@ -66,7 +66,13 @@
                   </template>
                 </q-input>
                 <div>
-                  <q-btn class="full-width btn-color"       type="submit" label="Sign Up" no-caps />
+                  <q-btn
+                    class="full-width btn-color"
+                    type="submit"
+                    label="Sign Up"
+                    :disabled="isDisabled"
+                    no-caps
+                  />
                 </div>
               </q-form>
             </q-card-section>
@@ -76,7 +82,9 @@
             <div class="text-center q-pt-lg">
               <div class="text-subtitle2">
                 Already have an account ?
-                <span class="text__color" @click="goToSignInPage()">Signin</span>
+                <span class="text__color" @click="goToSignInPage()"
+                  >Signin</span
+                >
               </div>
               <div class="text-subtitle text-medium q-my-sm">
                 © 2022 wastech. Crafted with
@@ -103,8 +111,13 @@ export default {
       name: "",
     };
   },
+  computed: {
+    isDisabled: function () {
+      return !this.email || !this.password || !this.name;
+    },
+  },
   methods: {
-     goToSignInPage() {
+    goToSignInPage() {
       return this.$router.push({ path: "/login" });
     },
     onSubmit() {
@@ -120,18 +133,17 @@ export default {
         this.$q.notify({
           type: "positive",
           timeout: 1000,
-          position: "center",
+
           message: "success",
         });
         this.$router.push({
-          name: "login",
+          path: "/login",
         });
       } catch (error) {
-        console.log("this is error", error.response.data.error);
         this.$q.notify({
           type: "negative",
           timeout: 500,
-          position: "center",
+
           message: error.response.data.error,
         });
       }

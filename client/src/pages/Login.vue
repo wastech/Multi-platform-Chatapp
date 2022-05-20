@@ -130,9 +130,9 @@ export default {
         // if (this.$route.query.from) {
         //   return this.$router.replace(this.$route.query.from);
         // } else {
-        //   this.$router.push({
-        //     path: "/",
-        //   });
+          this.$router.push({
+            path: "/",
+          });
         // }
         this.$q.notify({
           type: "positive",
