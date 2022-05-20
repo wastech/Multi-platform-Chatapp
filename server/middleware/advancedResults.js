@@ -20,7 +20,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
   // );
   const keyword = req.query.keyword
     ? {
-        username: {
+        name: {
           $regex: req.query.keyword,
           $options: "i",
         },
