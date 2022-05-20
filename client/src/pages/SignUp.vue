@@ -20,7 +20,7 @@
               </div>
             </div>
           </q-card-section>
-          <q-card flat >
+          <q-card flat>
             <q-card-section>
               <q-form class="q-gutter-md q-pa-lg">
                 <div class="text-capton text-medium">Username</div>
@@ -30,7 +30,7 @@
                   dense
                   class="bg-soft-light"
                   type="text"
-                  v-model="username"
+                  v-model="name"
                 >
                   <template v-slot:prepend>
                     <q-icon name="account_circle" />
@@ -43,7 +43,7 @@
                   dense
                   class="bg-soft-light"
                   type="email"
-                  v-model="username"
+                  v-model="email"
                 >
                   <template v-slot:prepend>
                     <q-icon name="mail" />
@@ -59,14 +59,14 @@
                   type="password"
                   dense
                   class="bg-soft-light"
-                  v-model="username"
+                  v-model="password"
                 >
                   <template v-slot:prepend>
                     <q-icon name="lock" />
                   </template>
                 </q-input>
                 <div>
-                  <q-btn class="full-width btn-color" label="Sign Up" no-caps />
+                  <q-btn class="full-width btn-color"       type="submit" label="Sign Up" no-caps />
                 </div>
               </q-form>
             </q-card-section>
@@ -76,7 +76,7 @@
             <div class="text-center q-pt-lg">
               <div class="text-subtitle2">
                 Already have an account ?
-                <span class="text__color">Signin</span>
+                <span class="text__color" @click="goToSignInPage()">Signin</span>
               </div>
               <div class="text-subtitle text-medium q-my-sm">
                 © 2022 wastech. Crafted with
@@ -91,16 +91,53 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import { ref } from "vue";
-export default defineComponent({
-  setup() {
+// inside of a Vue file
+// import { useQuasar } from 'quasar'
+import AuthenticationService from "../services/AuthenticationService";
+export default {
+  data() {
     return {
-      username: ref("Pratik"),
-      password: ref("12345"),
+      password: "",
+
+      email: "",
+      name: "",
     };
   },
-});
+  methods: {
+     goToSignInPage() {
+      return this.$router.push({ path: "/login" });
+    },
+    onSubmit() {
+      this.login();
+    },
+    async login() {
+      try {
+        const response = await AuthenticationService.register({
+          email: this.email,
+          password: this.password,
+          name: this.name,
+        });
+        this.$q.notify({
+          type: "positive",
+          timeout: 1000,
+          position: "center",
+          message: "success",
+        });
+        this.$router.push({
+          name: "login",
+        });
+      } catch (error) {
+        console.log("this is error", error.response.data.error);
+        this.$q.notify({
+          type: "negative",
+          timeout: 500,
+          position: "center",
+          message: error.response.data.error,
+        });
+      }
+    },
+  },
+};
 </script>
 
 <style  scoped>

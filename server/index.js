@@ -7,7 +7,7 @@ const fileupload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
-const xss = require("xss-clean");;
+const xss = require("xss-clean");
 
 const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
@@ -33,7 +33,7 @@ const app = express();
 app.use(compression());
 // Body parser
 app.use(express.json());
-
+app.use(cors());
 // Cookie parser
 app.use(cookieParser());
 
@@ -57,8 +57,6 @@ app.use(limiter);
 
 // Prevent http param pollution
 app.use(hpp());
-
-
 
 // Set static folder
 
@@ -129,8 +127,7 @@ io.on("connection", (socket) => {
     console.log("USER DISCONNECTED");
     socket.leave(userData._id);
   });
-});  
-
+});
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
