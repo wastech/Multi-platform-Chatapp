@@ -33,7 +33,7 @@
           <q-item v-for="user in users" :key="user.id">
             <q-item-section avatar>
               <q-avatar>
-                <img src="https://cdn.quasar.dev/img/avatar2.jpg" />
+                <img :src="user.profilePhoto" />
               </q-avatar>
             </q-item-section>
 
@@ -46,7 +46,9 @@
               ></q-item-label>
             </q-item-section>
 
-            <q-item-section side> 1 min ago </q-item-section>
+            <q-item-section side>
+              {{ niceDate(user.createdAt) }}
+            </q-item-section>
           </q-item>
         </q-list>
       </section>
@@ -55,6 +57,7 @@
 </template>
 
 <script>
+import { date } from "quasar";
 import { debounce } from "lodash";
 import { api } from "boot/axios";
 export default {
@@ -79,10 +82,14 @@ export default {
     this.fetchData();
     this.debounceName = debounce(this.fetchData, 500);
   },
-  // created() {
-  // },
-  // watch: {
-  // },
+
+  computed: {
+    niceDate() {
+      return (timeStamp) => {
+        return date.formatDate(timeStamp, "MMM DD HH:mm");
+      };
+    },
+  },
   methods: {
     matchName(current) {
       let reggie = new RegExp(this.keyword, "ig");

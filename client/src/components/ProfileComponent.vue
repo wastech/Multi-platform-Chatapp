@@ -6,30 +6,32 @@
     </div>
     <!-- image profile -->
     <div class="profile__image text-center">
-      <img
-        src="http://chatvia-light.vue.themesbrand.com/img/avatar-1.67e2b9d7.jpg"
-        alt=""
-      />
-      <div class="text-subtitle1">Patricia Smith</div>
+      <img :src="user.profilePhoto" alt="" />
+      <div class="text-subtitle1">{{ user.name }}</div>
       <div class="text-caption text-muted">
         <q-badge color="green" rounded class="q-mr-sm" />Active
       </div>
     </div>
     <q-separator class="q-my-lg" />
-    <div class="text-body2 text-grey">
-      If several languages coalesce, the grammar of the resulting language is
-      more simple and regular than that of the individual.
+    <div class="text-body2 text-grey" v-if="user.about">
+      {{ user.about }}
     </div>
     <q-list class="rounded-borders q-my-lg">
       <q-expansion-item expand-separator icon="perm_identity" label="About">
         <q-card>
           <q-card-section>
             <div class="text-overline text-grey">Name</div>
-            <div class="text-subtitle2">Admin123</div>
+            <div class="text-subtitle2">{{ user.name }}</div>
           </q-card-section>
           <q-card-section>
             <div class="text-overline text-grey">Email</div>
-            <div class="text-subtitle2">Admin123@gmail.com</div>
+            <div class="text-subtitle2">{{ user.email }}</div>
+          </q-card-section>
+          <q-card-section>
+            <div class="text-overline text-grey">Time</div>
+            <div class="text-subtitle2">
+              {{ niceDate(user.createdAt) }}
+            </div>
           </q-card-section>
           <q-card-section>
             <div class="text-overline text-grey">Location</div>
@@ -42,9 +44,39 @@
 </template>
 
 <script>
-export default {};
-</script>
+import { date } from "quasar";
+import AuthenticationService from "../services/AuthenticationService";
+export default {
+  data() {
+    return {
+      user: {},
+    };
+  },
 
+  computed: {
+    niceDate() {
+      return (timeStamp) => {
+        return date.formatDate(timeStamp, "MMM DD HH:mm");
+      };
+    },
+  },
+  methods: {
+    async getPost() {
+      try {
+        await AuthenticationService.profile().then((response) => {
+          this.user = response.data.data;
+          console.log("first", response.data);
+        });
+      } catch (err) {
+        console.log(err.response);
+      }
+    },
+  },
+  async mounted() {
+    this.getPost();
+  },
+};
+</script>
 <style scoped>
 img {
   height: 6rem;
