@@ -33,20 +33,22 @@ const app = express();
 app.use(compression());
 // Body parser
 app.use(express.json());
-app.use(cors());
+
 // Cookie parser
 app.use(cookieParser());
 
 // Dev logging middleware
-if (!process.env.NODE_ENV === "production") {
-  app.use(morgan("dev"));
-}
-
+// if (!process.env.NODE_ENV === "production") {
+ 
+// }
+ app.use(morgan("dev"));
 // File uploading
 app.use(fileupload());
 
 // Set security headers
-app.use(helmet());
+// helmet({
+//   crossOriginResourcePolicy: false,
+// });
 
 // Rate limiting
 const limiter = rateLimit({
@@ -55,9 +57,10 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// Prevent http param pollution
+app.use(cors()); // Prevent http param pollution
 app.use(hpp());
 
+app.use(express.static(path.join(__dirname, "public")));
 // Set static folder
 
 app.use("/api/v1/auth", auth);

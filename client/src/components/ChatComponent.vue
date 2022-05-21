@@ -33,7 +33,11 @@
           <q-item v-for="user in users" :key="user.id">
             <q-item-section avatar>
               <q-avatar>
-                <img :src="user.profilePhoto" />
+                <img
+                  v-if="user.profilePhoto !== 'no-photo.jpg'"
+                  :src="`${url}/uploads/avatars/${user.profilePhoto}`"
+                  alt="user,name"
+                />
               </q-avatar>
             </q-item-section>
 
@@ -65,7 +69,7 @@ export default {
   data() {
     return {
       users: [],
-
+      url: "http://localhost:5000",
       keyword: "",
     };
   },

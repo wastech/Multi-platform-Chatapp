@@ -6,8 +6,50 @@
     </div>
     <!-- image profile -->
     <div class="profile__image text-center">
-      <img :src="user.profilePhoto" alt="" />
+      <q-img
+        v-if="user.profilePhoto !== 'no-photo.jpg'"
+        :src="`${url}/uploads/avatars/${user.profilePhoto}`"
+        alt=""
+        class="img"
+      >
+        <!-- <template> <q-icon name="group" /></template> -->
+      </q-img>
+      <q-badge color="grey-1" @click="alert = true">
+        <q-icon name="add" size="sm" color="black" />
+      </q-badge>
+
       <div class="text-subtitle1">{{ user.name }}</div>
+
+      <!-- dialog Box -->
+      <q-dialog v-model="alert">
+        <q-card style="width: 60vw">
+          <q-card-section class="row items-center q-pa-lg">
+            <div class="text-h6 text-weight-bolder">Change Profile</div>
+            <q-space />
+            <q-btn icon="close" flat round dense v-close-popup />
+          </q-card-section>
+          <q-separator />
+          <q-card-section class="q-pt-none">
+            <div class="q-my-md">
+              <input type="file" ref="file" @change="onSelect()" />
+            </div>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn
+              flat
+              label="Update Picture"
+              class="btn-color"
+              @click.prevent="onSubmit()"
+              no-caps
+            />
+            <!--  v-close-popup -->
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <!-- dialog Box ends here-->
+
       <div class="text-caption text-muted">
         <q-badge color="green" rounded class="q-mr-sm" />Active
       </div>
@@ -50,6 +92,9 @@ export default {
   data() {
     return {
       user: {},
+      file: "",
+      alert: false,
+      url: "http://localhost:5000",
     };
   },
 
@@ -61,11 +106,39 @@ export default {
     },
   },
   methods: {
+    onSelect() {
+      this.file = this.$refs.file.files[0];
+    },
+
+    async onSubmit() {
+      try {
+        let formData = new FormData();
+
+        formData.append("profilePhoto", this.file);
+
+        await AuthenticationService.updateAvatar(formData).then((response) => {
+          this.getPost();
+          this.$q.notify({
+            type: "positive",
+            
+            timeout: 1000,
+
+            message: "Profile Picture Updated",
+          });
+        });
+      } catch (err) {
+        this.$q.notify({
+          type: "negative",
+          timeout: 1000,
+
+          message: err.response.data.error,
+        });
+      }
+    },
     async getPost() {
       try {
         await AuthenticationService.profile().then((response) => {
           this.user = response.data.data;
-          console.log("first", response.data);
         });
       } catch (err) {
         console.log(err.response);
@@ -78,13 +151,13 @@ export default {
 };
 </script>
 <style scoped>
-img {
+.img {
   height: 6rem;
   width: 6rem;
   border-radius: 50% !important;
   padding: 0.25rem;
   background-color: #f7f7ff;
   border: 1px solid #f0eff5;
-  object-fit: contain;
+  object-fit: cover;
 }
 </style>>

@@ -17,6 +17,9 @@ export default {
   profile() {
     return api.get("auth/me");
   },
+  updateAvatar(data) {
+    return api.put("auth/avatar", data);
+  },
   delete(userId) {
     return api().delete(`auth/admin/user/${userId}`);
   },
