@@ -70,19 +70,18 @@ exports.getMe = asyncHandler(async (req, res, next) => {
   });
 });
 
-
 // @desc    Upload avatar
 // @route   PUT /api/v1/users
 // @access  Private
 exports.uploadChannelAvatar = asyncHandler(async (req, res, next) => {
   if (!req.files) {
-    return next(new ErrorResponse(`Please upload a file`, 404))
+    return next(new ErrorResponse(`Please upload a file`, 404));
   }
 
   const file = req.files.profilePhoto;
 
-  if (!file.mimetype.startsWith('image')) {
-    return next(new ErrorResponse(`Please upload an image file`, 404))
+  if (!file.mimetype.startsWith("image")) {
+    return next(new ErrorResponse(`Please upload an image file`, 404));
   }
 
   if (file.size > process.env.MAX_FILE_UPLOAD) {
@@ -93,26 +92,26 @@ exports.uploadChannelAvatar = asyncHandler(async (req, res, next) => {
         }mb`,
         404
       )
-    )
+    );
   }
 
-  file.name = `avatar-${req.user._id}${path.parse(file.name).ext}`
+  file.name = `avatar-${req.user._id}${path.parse(file.name).ext}`;
 
   file.mv(
     `${process.env.FILE_UPLOAD_PATH}/avatars/${file.name}`,
     async (err) => {
       if (err) {
-        console.error(err)
-        return next(new ErrorResponse(`Problem with file upload`, 500))
+        console.error(err);
+        return next(new ErrorResponse(`Problem with file upload`, 500));
       }
 
       // await Bootcamp.findByIdAndUpdate(req.params.id, { photo: file.name })
       req.user.profilePhoto = file.name;
-      await req.user.save()
-      res.status(200).json({ success: true, data: file.name })
+      await req.user.save();
+      res.status(200).json({ success: true, data: file.name });
     }
-  )
-})
+  );
+});
 
 // @desc      Update user details
 // @route     PUT /api/v1/auth/updatedetails
@@ -121,6 +120,8 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
   const fieldsToUpdate = {
     username: req.body.username,
     email: req.body.email,
+    location: req.body.location,
+    about: req.body.about,
   };
 
   const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {

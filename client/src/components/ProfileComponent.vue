@@ -77,7 +77,7 @@
           </q-card-section>
           <q-card-section>
             <div class="text-overline text-grey">Location</div>
-            <div class="text-subtitle2">California, USA</div>
+            <div class="text-subtitle2">{{ user.location }}</div>
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -120,7 +120,7 @@ export default {
           this.getPost();
           this.$q.notify({
             type: "positive",
-            
+
             timeout: 1000,
 
             message: "Profile Picture Updated",

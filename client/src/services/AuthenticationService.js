@@ -20,6 +20,10 @@ export default {
   updateAvatar(data) {
     return api.put("auth/avatar", data);
   },
+
+  updatedetails(data) {
+    return api.put("auth/updatedetails", data);
+  },
   delete(userId) {
     return api().delete(`auth/admin/user/${userId}`);
   },

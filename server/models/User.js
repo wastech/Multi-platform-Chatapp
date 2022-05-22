@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
       "Please add a valid email",
     ],
   },
-  Location: {
+  location: {
     type: String,
   },
   profilePhoto: {

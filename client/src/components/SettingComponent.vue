@@ -7,18 +7,17 @@
     <!-- image profile -->
     <div class="profile__image text-center">
       <img
-        src="http://chatvia-light.vue.themesbrand.com/img/avatar-1.67e2b9d7.jpg"
-        alt=""
+        :src="`${url}/uploads/avatars/${user.profilePhoto}`"
+        alt="user.name"
       />
-      <div class="text-subtitle1">Patricia Smith</div>
+      <div class="text-subtitle1">{{ user.name }}</div>
       <div class="text-caption text-muted">
         <q-badge color="green" rounded class="q-mr-sm" />Active
       </div>
     </div>
     <q-separator class="q-my-lg" />
     <div class="text-body2 text-grey">
-      If several languages coalesce, the grammar of the resulting language is
-      more simple and regular than that of the individual.
+      {{ user.about }}
     </div>
     <q-list class="rounded-borders q-my-lg">
       <q-expansion-item
@@ -28,16 +27,42 @@
       >
         <q-card>
           <q-card-section>
-            <div class="text-overline text-grey">Name</div>
-            <div class="text-subtitle2">Admin123</div>
-          </q-card-section>
-          <q-card-section>
-            <div class="text-overline text-grey">Email</div>
-            <div class="text-subtitle2">Admin123@gmail.com</div>
-          </q-card-section>
-          <q-card-section>
-            <div class="text-overline text-grey">Location</div>
-            <div class="text-subtitle2">California, USA</div>
+            <form action="" @submit.prevent="onSubmit">
+              <div class="q-gutter-y-md column" style="max-width: 100%">
+                <q-input
+                  clearable
+                  filled
+                  type="text"
+                  color="purple-12"
+                  v-model="name"
+                />
+                <q-input
+                  clearable
+                  filled
+                  type="email"
+                  color="purple-12"
+                  v-model="email"
+                />
+                <q-input
+                  clearable
+                  filled
+                  type="text"
+                  color="purple-12"
+                  v-model="location"
+                />
+
+                <q-input v-model="about" clearable filled type="textarea" />
+                <div>
+                  <q-btn
+                    class="full-width btn-color"
+                    type="submit"
+                    label="Update"
+                    :disabled="isDisabled"
+                    no-caps
+                  />
+                </div>
+              </div>
+            </form>
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -52,7 +77,7 @@
         <q-card>
           <q-card-section>
             <div class="text-overline text-grey">Name</div>
-            <div class="text-subtitle2">Admin123</div>
+            <div class="text-subtitle2">{{ user.name }}</div>
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -79,7 +104,77 @@
 </template>
 
 <script>
-export default {};
+import { date } from "quasar";
+import AuthenticationService from "../services/AuthenticationService";
+export default {
+  data() {
+    return {
+      user: {},
+      name: "",
+      location: "",
+      email: "",
+      about: "",
+      file: "",
+      alert: false,
+      url: "http://localhost:5000",
+    };
+  },
+
+  computed: {
+    niceDate() {
+      return (timeStamp) => {
+        return date.formatDate(timeStamp, "MMM DD HH:mm");
+      };
+    },
+    isDisabled: function () {
+      return !this.email || !this.name || !this.about || !this.location;
+    },
+  },
+  methods: {
+    async onSubmit() {
+      try {
+        await AuthenticationService.updatedetails({
+          email: this.email,
+          about: this.about,
+          location: this.location,
+          name: this.name,
+        }).then((response) => {
+          this.getPost();
+          this.$q.notify({
+            type: "positive",
+
+            timeout: 1000,
+
+            message: "Profile Picture Updated",
+          });
+        });
+      } catch (err) {
+        this.$q.notify({
+          type: "negative",
+          timeout: 1000,
+
+          message: err.response.data.error,
+        });
+      }
+    },
+    async getPost() {
+      try {
+        await AuthenticationService.profile().then((response) => {
+          this.user = response.data.data;
+          this.name = response.data.data.name;
+          this.about = response.data.data.about;
+          this.location = response.data.data.location;
+          this.email = response.data.data.email;
+        });
+      } catch (err) {
+        console.log(err.response);
+      }
+    },
+  },
+  async mounted() {
+    this.getPost();
+  },
+};
 </script>
 
 <style scoped>
