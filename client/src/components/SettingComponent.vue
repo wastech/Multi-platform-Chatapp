@@ -16,7 +16,7 @@
       </div>
     </div>
     <q-separator class="q-my-lg" />
-    <div class="text-body2 text-grey">
+    <div class="text-body2 text-grey text-center">
       {{ user.about }}
     </div>
     <q-list class="rounded-borders q-my-lg">

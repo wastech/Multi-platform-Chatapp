@@ -18,7 +18,9 @@
               </q-item-section>
 
               <q-item-section>
-                <q-item-label class="__text"> Brunhilde   <q-badge color="green" rounded class="q-ml-sm" /></q-item-label>
+                <q-item-label class="__text">
+                  Brunhilde <q-badge color="green" rounded class="q-ml-sm"
+                /></q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -39,6 +41,27 @@
             />
           </div>
         </div>
+
+        <!-- form section -->
+        <section>
+          <q-footer class="bg-grey-3">
+            <!-- <q-toolbar>
+              <q-toolbar-title>Footer</q-toolbar-title>
+            </q-toolbar> -->
+            <div class="q-gutter-y-md column" style="max-width: 90%">
+              <q-input
+                color="purple-12"
+                :rules="[(val) => !!val || 'Field is required']"
+                placeholder="Type message"
+                v-model="text"
+              >
+                <template v-slot:after>
+                  <q-icon name="send" />
+                </template>
+              </q-input>
+            </div>
+          </q-footer>
+        </section>
       </q-page>
     </q-page-container>
   </q-layout>
