@@ -45,15 +45,12 @@
         <!-- form section -->
         <section>
           <q-footer class="bg-grey-3">
-            <!-- <q-toolbar>
-              <q-toolbar-title>Footer</q-toolbar-title>
-            </q-toolbar> -->
             <div class="q-gutter-y-md column" style="max-width: 90%">
               <q-input
                 color="purple-12"
                 :rules="[(val) => !!val || 'Field is required']"
                 placeholder="Type message"
-                v-model="text"
+                v-model="content"
               >
                 <template v-slot:after>
                   <q-icon name="send" />
@@ -68,16 +65,13 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import { ref } from "vue";
-export default defineComponent({
-  setup() {
+export default {
+  data() {
     return {
-      username: ref(""),
-      password: ref(""),
+      content: "",
     };
   },
-});
+};
 </script>
 
 <style  scoped>
