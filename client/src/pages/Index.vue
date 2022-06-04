@@ -53,7 +53,7 @@
                 v-model="content"
               >
                 <template v-slot:after>
-                  <q-icon name="send" />
+                  <q-icon name="send" @click.prevent="onSubmit" />
                 </template>
               </q-input>
             </div>
@@ -65,11 +65,55 @@
 </template>
 
 <script>
+import MessageService from "../services/MessageService";
 export default {
   data() {
     return {
       content: "",
+      chatId: this.$route.params.id,
+      messages: [],
     };
+  },
+  methods: {
+    onSubmit() {
+      this.message();
+    },
+    async message() {
+      try {
+        const response = await MessageService.message({
+          content: this.content,
+          chatId: this.chatId,
+        });
+        // }
+        this.$q.notify({
+          type: "positive",
+          timeout: 1000,
+          message: "success",
+        });
+        // this.$router.push("/");
+      } catch (error) {
+        console.log("this is error", error.response.data.error);
+        this.$q.notify({
+          type: "negative",
+          timeout: 500,
+
+          message: error.response.data.error,
+        });
+      }
+    },
+    async getPost() {
+      try {
+        await MessageService.allMessages(this.chatId).then((response) => {
+          this.messages = response.data.messages;
+          console.log("first",this.messages)
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+  async mounted() {
+    this.getPost();
   },
 };
 </script>

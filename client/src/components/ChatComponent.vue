@@ -42,7 +42,10 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label v-html="matchName(user.name)"></q-item-label>
+              <q-item-label
+                v-on:click="goToChatId(user._id)"
+                v-html="matchName(user.name)"
+              ></q-item-label>
               <q-item-label
                 caption
                 lines="1"
@@ -95,6 +98,9 @@ export default {
     },
   },
   methods: {
+    goToChatId(id) {
+      return this.$router.push({ path: id });
+    },
     matchName(current) {
       let reggie = new RegExp(this.keyword, "ig");
       let found = current.search(reggie) !== -1;
@@ -125,7 +131,7 @@ export default {
 </script>
 
 <style scoped>
-.img{
+.img {
   object-fit: cover;
 }
 </style>

@@ -85,7 +85,6 @@ exports.fetchChats = asyncHandler(async (req, res, next) => {
 //@description     Create New Group Chat
 //@route           POST /api/chat/group
 //@access          Protected
-
 exports.createGroupChat = asyncHandler(async (req, res) => {
   if (!req.body.userId || !req.body.name) {
     return res.status(400).send({ message: "Please Fill all the feilds" });

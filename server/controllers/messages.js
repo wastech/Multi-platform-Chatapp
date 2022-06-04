@@ -2,6 +2,7 @@ const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 const Message = require("../models/Message");
 const User = require("../models/User");
+const Chat = require("../models/Chat");
 
 //@description     Get all Messages
 //@route           GET /api/Message/:chatId
@@ -11,7 +12,7 @@ exports.allMessages = asyncHandler(async (req, res, next) => {
   //:chatId in routes //request params
   const messages = await Message.find({ chat: req.params.chatId })
     .populate("sender", "name email")
-    .populate("chat");
+    .populate("chatId");
 
   res.json(messages);
 });
@@ -30,18 +31,18 @@ exports.sendMessage = asyncHandler(async (req, res) => {
   var newMessage = {
     sender: req.user._id,
     content: content,
-    chat: chatId,
+    chatId: chatId,
   };
 
   var message = await Message.create(newMessage);
 
   //populating the instance
   message = await message.populate("sender", "name");
-  message = await message.populate("chat");
+  message = await message.populate("chatId");
 
   //populating with the user in that chat field of our message doc instance
   message = await User.populate(message, {
-    path: "chat.userId",
+    path: "chatId.userId",
     select: "name email",
   });
 
